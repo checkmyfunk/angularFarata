@@ -1,0 +1,114 @@
+= Unit 3. Walkthrough 2.
+© 2014 Farata Systems LLC. <training@faratasystems.com>
+:icons: font
+:last-update-label!:
+:sectanchors:
+:idprefix:
+:numbered!:
+:source-highlighter: highlightjs
+
+
+== Summary
+
+In this walkthrough you will implement a custom AngularJS filter displaying human-readable timespan relative to the current user's time till the product's sale ends.
+
+== Steps
+
+. Use `walkthroughs/w2` directory from the provided handouts as the starting point for the walkthrough.
+
+. Open `bower.json` file and add dependency to the npm package called `moment`:
++
+[source,js]
+----
+"dependencies": {
+  // Other dependencies.
+
+  "moment" : "^2.9.0" <1>
+}
+----
+<1> Specify the latest version available on npmjs.org site.
+
+. Open `.jshintrc` file and add `moment` to the list of global variables. This line lets JSHint know about moment.js and stops it complaining that `moment` variable is not defined.
++
+[source,js]
+----
+"globals": {
+  "angular": false,
+  "moment": false <1>
+}
+----
+<1> Add `moment` to the list of the existing globals. In our case two variables should be listed: `angular` and `moment`.
+
+. Create `app/scripts/filter/` directory that we will use for all our custom AngularJS filters.
+
+. Create `FromNowFilter.js` file inside `app/scripts/filter` directory, and open just created file.
+[style="upperalpha"]
+.. Define self-executable anonymous function:
++
+[source,js]
+----
+(function () {
+
+}());
+----
+
+.. Inside the function declare `use strict` directive:
++
+[source,js]
+----
+(function () {
+  'use strict';
+}());
+----
+
+.. Right after `'use strict';` declare a factory function that we will use to create the filter. Name it `fromNowFilterFactory`:
++
+[source,js]
+----
+var fromNowFilterFactory = function () {};
+----
+
+.. Return a JavaScript function from `fromNowFilterFactory` that will actually convert data from the original format to the target one. In our case the function should accept a single parameter - date string, and should return string representing timespan relative to the current user's time. For this purpose we will use moment.js. Construct moment.js date object by invoking global `moment` function and passing date string as the only argument. Then use `fromNow` method of the constructed date object to convert date string to the timespan:
++
+[source,js]
+----
+var fromNowFilterFactory = function () {
+  return function fromNowFilter (dateString) {
+    return moment(dateString).fromNow();
+  };
+};
+----
+
+.. Register the filter inside AngularJS DI container invoking `filter()` method available on the application module:
++
+[source,js]
+----
+angular.module('auction').filter(
+  'fromNow', <1>
+   fromNowFilterFactory); <2>
+----
+<1> Using this name we will invoke filter inside the templates.
+<2> `filter()` method expects to get a _factory function_. This means the provided function will be normally invoked and the returned value will be registered within DI as singleton object.
+
+. Open `app/index.html` file and add `FromNowFilter.js` to the list of referenced scripts:
++
+[source,html]
+----
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/app.js"></script>
+<script src="scripts/controller/HomeController.js"></script>
+<script src="scripts/controller/SearchController.js"></script>
+<script src="scripts/filter/FromNowFilter.js"></script> <1>
+<script src="scripts/service/ProductService.js"></script>
+<!-- endbuild -->
+----
+<1> Should be within `<!-- build:js -\-><!-- endbuild -\->` comments.
+
+. Open `app/views/search.html` file, find expression displaying hardcoded time left value `{{ product.timeleft }} hour left` and replace it with new expression that passes `product.endtime` value through `fromNow` filter and displays it on the page:
++
+[source,html]
+----
+{{ product.endtime | fromNow }}
+----
+
+. Launch application with `grunt serve` command, navigate to the Search page and make sure time left badges under each product display timespans relative to the current time similar to: "1 hour ago", "in 1 month", "a week ago", etc.

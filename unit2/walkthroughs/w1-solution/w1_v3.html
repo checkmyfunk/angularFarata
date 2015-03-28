@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<!-- STEP 2: Bootstrap AngularJS -->
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Unit 2. Walkthrough 1.</title>
+</head>
+<body>
+  <div ng-app>
+    <p>Type here: <input type="text" ng-model="myData.message"/></p>
+
+    <p>Should appear: <strong>{{ myData.message }}</strong></p>
+  </div>
+  
+  <!-- Angular doesn't handle this section -->
+  <p>Won't appear: <strong>{{ myData.message }}</strong></p>
+
+    <script src="angular.js"></script>
+</body>
+</html>

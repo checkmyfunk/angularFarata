@@ -1,0 +1,24 @@
+The following software must be installed on your computer:
+
+1. Node.js. Press the Install button at http://nodejs.org. Run the installer. 
+
+Check that Node.js is runnable from the command-line. Run the following command, and you should see the node version:
+
+node --version
+
+If it doesn't respond, add the directory where you install Node to the PATH environment variable.
+
+2. Node Package Manager (npm) comes with Node.js. To check that it's available run the following command:
+
+npm --version
+
+3. AngularJS plugin for IntelliJ IDEA. Launch IDEA, go to Preferences or Settings, choose Plugins item on the left panel, click Browse repositories. Find the AngularJS plugin in the list, and click the Install plugin button. Then you should be able to see it in the list of installed plugins. Make sure the plugin is enabled (see http://take.ms/5ihh4).
+
+4. AngularJS Batarang extension for Chrome for debugging. Go to https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk in Google Chrome browser and click +FREE button.
+
+5. Install the JavaScript library angularjs-DefinitelyTyped to enable context-sensitive documentation.  
+  - In IDEA Open Preferences (or Settings), enter JavaScript in the search box and go to the Libraries section.  
+  - Press Download and select Typescript community stubs in dropdown . 
+  - Select angular-js and press the button Download and Install 
+  - You should see the item angular-agility-DefinitelyTyped - click on the check box to select and hit Apply. 
+  - Open any code sample with AngularJS code and click Control-J  to see the documentation for the function/component under the cursor.
